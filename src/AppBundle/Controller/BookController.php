@@ -22,8 +22,11 @@ class BookController extends Controller
      */
     public function listAllBooks($bookId)
     {
+        $listOfCatagories = 'Fiction, *Sci-fi*, Biography, Childrens';
+        $listOfCatagories = $this->get('markdown.parser')->transform($listOfCatagories);
         return $this->render('book/listAll.html.twig', array(
-            'name'=>$bookId
+            'name'=>$bookId,
+            'list'=>$listOfCatagories
         ));
     }
 

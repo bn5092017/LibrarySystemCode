@@ -38,3 +38,7 @@ nav a:hover{
 nav a.current_page{
     color: #303;
 }
+
+ul {
+    list-style-type: none;
+}

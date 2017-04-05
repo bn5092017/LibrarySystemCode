@@ -1,0 +1,6 @@
+{% extends 'base.html.twig' %}
+{% block title %}home{% endblock %}
+{% block body %}
+    <h1>Hello</h1>
+    <a href="{{ path('app_book_listallbooks', {'bookId': 'x'}) }}">list</a>
+{% endblock %}
