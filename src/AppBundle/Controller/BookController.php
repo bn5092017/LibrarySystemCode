@@ -18,21 +18,22 @@ use Symfony\Component\HttpFoundation\Response;
 class BookController extends Controller
 {
     /**
-     * @Route("/book/{bookId}")
+     * @Route("/books", name="list_books")
      */
-    public function listAllBooks($bookId)
+    public function listAllBooks()
     {
-        $listOfCatagories = 'Fiction, *Sci-fi*, Biography, Childrens';
-        $listOfCatagories = $this->get('markdown.parser')->transform($listOfCatagories);
-        return $this->render('book/listAll.html.twig', array(
-            'name'=>$bookId,
+        $em = $this->getDoctrine()->getManager();
+        $books = $em->getRepository('AppBundle\Entity\Books')->findAll();
+        $listOfCatagories = 'Fiction, Sci-fi, Biography, Childrens';
+        return $this->render('books/listAll.html.twig', array(
+            'books'=>$books,
             'list'=>$listOfCatagories
         ));
     }
 
     /**
      * @return jsonResponse
-     * @Route("/book/{bookId}/details", name="book_show_details")
+     * @Route("/books/{bookId}/details", name="book_show_details")
      * @Method("GET")
      */
     public function getDetailsAction()

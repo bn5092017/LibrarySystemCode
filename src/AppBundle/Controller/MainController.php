@@ -16,4 +16,9 @@ class MainController extends Controller
     {
         return $this->render('main/homepage.html.twig');
     }
+
+    public function aboutAction()
+    {
+        return $this->render('main/about.html.twig');
+    }
 }
