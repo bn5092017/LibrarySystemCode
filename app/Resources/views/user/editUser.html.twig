@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block title %}edit user{% endblock %}
+{% block body %}
+    <h1>Users</h1>
+    <form>
+        ID: {{ user.id }}
+        username: <input type="text" value="{{ user.username }}">
+        first name: <input type="text" value="{{ user.firstName }}">
+        last name: <input type="text" value="{{ user.lastname }}">
+        address: <input type="text" value="{{ user.address }}">
+        email: <input type="text" value="{{ user.email }}">
+        password: <input type="text" value="{{ user.password }}">
+        Staff member: <input type="checkbox">
+        <input type="submit">
+    </form>
+{% endblock %}

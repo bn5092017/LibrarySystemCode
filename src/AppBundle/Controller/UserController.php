@@ -29,4 +29,19 @@ class UserController extends Controller
         ]
         );
     }
+
+    /**
+     * @Route("/user/{id}", name="edit_user")
+     */
+    public function editUser($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $users = $em->getRepository('AppBundle\Entity\User')->findOneById($id);
+        return $this->render('user/editUser.html.twig', [
+                'users'=>$users
+            ]
+        );
+    }
+
+//$password = password_hash("blckD0g", PASSWORD_DEFAULT);
 }

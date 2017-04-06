@@ -19,6 +19,9 @@ class MainController extends Controller
 
     public function aboutAction()
     {
-        return $this->render('main/about.html.twig');
+        $password = password_hash("blckD0g", PASSWORD_DEFAULT);
+        return $this->render('main/about.html.twig', [
+            'password' => $password
+        ]);
     }
 }
