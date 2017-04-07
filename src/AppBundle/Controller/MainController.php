@@ -8,20 +8,26 @@
 
 namespace AppBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class MainController extends Controller
 {
+    /**
+     * @Route("/", name="homepage")
+     */
     public function homepageAction()
     {
         return $this->render('main/homepage.html.twig');
     }
 
+    /**
+     * @Route("/about", name="about")
+     */
     public function aboutAction()
     {
-        $password = password_hash("blckD0g", PASSWORD_DEFAULT);
-        return $this->render('main/about.html.twig', [
-            'password' => $password
-        ]);
+
+        return $this->render('main/about.html.twig');
     }
 }

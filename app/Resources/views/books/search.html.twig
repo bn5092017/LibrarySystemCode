@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title %}search{% endblock %}
+{% block body %}
+    <h1>Search all books</h1>
+    <p>
+        Enter title, author or keyword to search all books
+    </p>
+    <form action="searchAllBooks" method="GET">
+        Title: <input type="text" name="title">
+        Author: <input type="text" name="author">
+        Keyword: <input type="text" name="keyword">
+        <input type="submit" value="search">
+    </form>
+{% endblock %}
