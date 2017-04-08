@@ -15,12 +15,15 @@
     <nav>
         <a href="{{ path('homepage') }}">home</a>
         <a href="{{ path('about') }}">about</a>
-        <a href="{{ path('homepage') }}">search</a>
-        <a href="{{ path('homepage') }}">login</a>
+        <a href="{{ path('search_books') }}">search</a>
+        <a href="{{ path('login_form') }}">login</a>
         <a href="{{ path('homepage') }}">register</a>
         <a href="{{ path('homepage') }}">Staff</a>
         <a href="{{ path('homepage') }}">sitemap</a>
     </nav>
+        {% for msg in app.session.flashBag.get('success') %}
+            {{ msg }}
+        {% endfor %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

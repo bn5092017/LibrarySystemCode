@@ -5,10 +5,9 @@
     <p>
         Enter title, author or keyword to search all books
     </p>
-    <form action="searchAllBooks" method="GET">
-        Title: <input type="text" name="title">
-        Author: <input type="text" name="author">
-        Keyword: <input type="text" name="keyword">
-        <input type="submit" value="search">
-    </form>
+    {{ form_start(searchForm) }}
+    {{ form_widget(searchForm) }}
+    <input type="submit" value="search">
+    {{ form_end(searchForm) }}
+
 {% endblock %}

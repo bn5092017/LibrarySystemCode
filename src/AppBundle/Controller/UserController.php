@@ -8,17 +8,23 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Form\LoginType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 
+/**
+ * Class UserController
+ * @Route("user")
+ */
 class UserController extends Controller
 {
     /**
-     * @Route("/user", name="list_users")
+     * @Route("/", name="list_users")
      */
     public function listAllUsers()
     {
@@ -31,7 +37,27 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/user/{id}", name="edit_user")
+     * @Route("/login", name="login_form")
+     */
+    public function loginAction(Request $request)
+    {
+        $form = $this->createForm(LoginType::class);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $list = $form->getData();
+
+            $this->addFlash('success', 'list of books');
+            return $this->redirectToRoute('list_books');
+        }
+
+        return $this->render('user/loginForm.html.twig', [
+            'loginForm' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/edit/{id}", name="edit_user")
      */
     public function editUser($id)
     {
