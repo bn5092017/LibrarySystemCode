@@ -2,18 +2,27 @@
 
 namespace AppBundle\Entity;
 
+//Doctrine Object-Relational Mapper, a service that maps objects of classes to entries in a database table
 use Doctrine\ORM\Mapping as ORM;
+//An interface that contains the methods getRoles(), getPassword(), getSalt(), getUsername(), eraseCredentials()
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
+ * Doctrine entity, a class with connections to the related table in the database
+ * The User class implements the UserInterface to take advantage of Symfony built-in authentication and
+ * authorisation methods
  *
  * @ORM\Table(name="user")
+ * A repository is a class that holds methods that query the database
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @var int
+     * Id column is auto-generated although in reality it would be a staff number or membership number for
+     * a customer
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -247,6 +256,21 @@ class User
     public function getRole()
     {
         return $this->role;
+    }
+
+    public function getRoles()
+    {
+        return ['ROLE_USER'];//basic user role
+    }
+
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }
 

@@ -2,22 +2,26 @@
 
 namespace AppBundle\Entity;
 
+//Doctrine Object-Relational Mapper, a service that maps objects of classes to entries in a database table
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Books
+ * Doctrine entity, a class with connections to the related table in the database
  *
  * @ORM\Table(name="books")
+ * A repository is a class that holds methods that query the database
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BooksRepository")
  */
 class Books
 {
     /**
      * @var int
+     * Isbn column is the ID for a book object as this is a unique identifier for a particular publication
      *
      * @ORM\Column(name="isbn", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     *
      */
     private $isbn;
 
