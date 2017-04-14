@@ -6,6 +6,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 //An interface that contains the methods getRoles(), getPassword(), getSalt(), getUsername(), eraseCredentials()
 use Symfony\Component\Security\Core\User\UserInterface;
+//Symfony class for user roles
+use Symfony\Component\Security\Core\Role\Role;
 
 /**
  * User
@@ -241,7 +243,7 @@ class User implements UserInterface
      *
      * @return User
      */
-    public function setRole($role)
+    public function setRoles($role)
     {
         $this->role = $role;
 
@@ -253,11 +255,6 @@ class User implements UserInterface
      *
      * @return string
      */
-    public function getRole()
-    {
-        return $this->role;
-    }
-
     public function getRoles()
     {
         return ['ROLE_USER'];//basic user role

@@ -4,7 +4,7 @@
     <h1>Books</h1>
     <ul>
         {% for book in books %}
-            <li>{{ book.title }}, {{ book.catagory }}</li>
+            <li>{{ book.title }}, <em>{{ book.catagory }}</em></li>
         {% endfor %}
     </ul>
     <h2>List of catagories</h2>

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}login {% endblock %}
+{% block body %}
+    <h1>Login</h1>
+    {% if error %}
+        {{ error.messageKey|trans(error.messageData, 'security') }}
+    {% endif %}
+    {{ form_start(form) }}
+        {{ form_row(form._username) }}
+        {{ form_row(form._password) }}
+        <input type="submit" value="login">
+    {{ form_end(form) }}
+{% endblock %}
