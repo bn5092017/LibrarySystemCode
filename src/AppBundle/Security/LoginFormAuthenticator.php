@@ -14,9 +14,11 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Http\Util\TargetPathTrait;
 //Class with login methods that also extends other classes AbstractGuardAuthenticator and GuardAuthenticatorInterface
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 
@@ -78,5 +80,17 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     {
         //redirects to the login page if login is unsuccessful
         return $this->router->generate('security_login');
+    }
+
+    //class to redirect user after login
+    use TargetPathTrait;
+
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    {
+        //this function redirects a user to the page they were on when they had to login for access
+        $targetPath = $this->getTargetPath($request->getSession(), $providerKey);
+        if(!$targetPath) {
+            $targetPath = $this->router->generate('homepage');
+        }
     }
 }

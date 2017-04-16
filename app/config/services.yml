@@ -4,6 +4,10 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+#   use the login as a service that can be called on.
+#   autowire is used because the arguments in the constructor
+#   for the class are typehinted and so arguments do not need
+#   to be set explicitly here
+    app.security.login_form_authenticator:
+        class: AppBundle\Security\LoginFormAuthenticator
+        autowire: true
