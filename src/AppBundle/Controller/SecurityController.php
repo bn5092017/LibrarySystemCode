@@ -31,4 +31,14 @@ class SecurityController extends Controller
                 'error' => $error,
             ]);
     }
+
+    /**
+     * @Route("/logout", name="security_logout")
+     */
+    public function logoutAction()
+    {
+        //this controller method does not need to perform a function the /logout route will be handled
+        // by built-in Symfony function but without a route, this would just throw a 404 error
+        throw new \Exception('Problem with logout function');
+    }
 }

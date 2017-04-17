@@ -44,7 +44,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="firstName", type="string", length=255)
      */
-    private $firstName;
+    private $firstname;
 
     /**
      * @var string
@@ -73,6 +73,14 @@ class User implements UserInterface
      * @ORM\Column(name="password", type="string", length=255)
      */
     private $password;
+
+    /**
+     * temporary property to store plaintext password
+     * not saved in database
+     *
+     * @var string
+     */
+    private $plainPassword;
 
     /**
      * @var string
@@ -117,27 +125,27 @@ class User implements UserInterface
     }
 
     /**
-     * Set firstName
+     * Set firstname
      *
-     * @param string $firstName
+     * @param string $firstname
      *
      * @return User
      */
-    public function setFirstName($firstName)
+    public function setFirstname($firstname)
     {
-        $this->firstName = $firstName;
+        $this->firstname = $firstname;
 
         return $this;
     }
 
     /**
-     * Get firstName
+     * Get firstname
      *
      * @return string
      */
-    public function getFirstName()
+    public function getFirstname()
     {
-        return $this->firstName;
+        return $this->firstname;
     }
 
     /**
@@ -237,6 +245,26 @@ class User implements UserInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param mixed $plainPassword
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+
+        //this is important for changing passwords in the database table using a Doctrine
+        //listener function as otherwise it will not be called if only this property is updated
+        $this->password = null;
+    }
+
+    /**
      * Set role
      *
      * @param string $role
@@ -267,7 +295,8 @@ class User implements UserInterface
 
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
+        //this will prevent the plainPassword being saved
+        $this->plainPassword = null;
     }
 }
 

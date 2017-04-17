@@ -4,10 +4,18 @@ parameters:
 #    parameter_name: value
 
 services:
-#   use the login as a service that can be called on.
-#   autowire is used because the arguments in the constructor
-#   for the class are typehinted and so arguments do not need
-#   to be set explicitly here
+    # use the login authenticator as a service that can be called on.
+    # autowire is used because the arguments in the constructor
+    # for the class are typehinted and so arguments do not need
+    # to be set explicitly here
     app.security.login_form_authenticator:
         class: AppBundle\Security\LoginFormAuthenticator
         autowire: true
+
+    # use the password listener class as a service that can be called on.
+    # the tag is used to identify when to call the listener service
+    app.doctrine.hash_password_listener:
+        class: AppBundle\Doctrine\HashPasswordListener
+        autowire: true
+        tags:
+            - {name: doctrine.event_subscriber}

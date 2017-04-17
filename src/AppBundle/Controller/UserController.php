@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Form\ChangePassword;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;//class containing routing methods
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;//base controller class
@@ -48,5 +49,15 @@ class UserController extends Controller
         );
     }
 
-//$password = password_hash("blckD0g", PASSWORD_DEFAULT);
+    /**
+     * @Route("/changePassword", name="change_password")
+     */
+    public function changePasswordAction()
+    {
+
+        $form = $this->createForm(ChangePassword::class, []);
+        return $this->render('user/changePassword.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 }

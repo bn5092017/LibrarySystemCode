@@ -16,7 +16,11 @@
         <a href="{{ path('homepage') }}">home</a>
         <a href="{{ path('about') }}">about</a>
         <a href="{{ path('search_books') }}">search</a>
+        {% if is_granted('ROLE_USER') %}
+        <a href="{{ path('security_logout') }}">logout</a>
+        {% else %}
         <a href="{{ path('security_login') }}">login</a>
+        {% endif %}
         <a href="{{ path('homepage') }}">register</a>
         <a href="{{ path('security_login') }}">Staff</a>
         <a href="{{ path('homepage') }}">sitemap</a>

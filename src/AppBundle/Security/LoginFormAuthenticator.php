@@ -15,19 +15,22 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-//Class with login methods that also extends other classes AbstractGuardAuthenticator and GuardAuthenticatorInterface
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 
+//extends a class with login methods that also extends other classes AbstractGuardAuthenticator and GuardAuthenticatorInterface
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
     private $em;
     private $router;
+    private $passwordEncoder;
 
-    public function __construct(FormFactoryInterface $formFactory, EntityManager $em, RouterInterface $router)
+    public function __construct(FormFactoryInterface $formFactory, EntityManager $em, RouterInterface $router, UserPasswordEncoder $passwordEncoder)
     {
         //use a form building service to construct a form
         $this->formFactory = $formFactory;
@@ -35,6 +38,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $this->em = $em;
         //uses the RouterInterface to create a route
         $this->router = $router;
+        //use a password encoding service to encrypt the password
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     public function getCredentials(Request $request)
@@ -53,6 +58,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
         //get the data from the form and return it
         $data = $form->getData();
+        //tells the SecurityController where to get the username to pre-fill the login form on error
+        $request->getSession()->set(
+            Security::LAST_USERNAME,
+            $data['_username']
+        );
 
         return $data;
     }
