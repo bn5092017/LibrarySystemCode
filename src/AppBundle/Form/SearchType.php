@@ -17,7 +17,10 @@ class SearchType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('author')->add('title');
+        $builder->add('author')
+            ->add('title')
+           // ->add('keyword', ['mapped' => false])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

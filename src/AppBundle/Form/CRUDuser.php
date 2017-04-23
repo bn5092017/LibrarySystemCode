@@ -23,13 +23,13 @@ class CRUDuser extends AbstractType
             ->add('_lastname')
             ->add('_address')
             ->add('_email')
-            ->add('_password', PasswordType::class);
+            ->add('_plainPassword',['type' => PasswordType::class]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => 'AppBundle:User'
-        ]);
+        $resolver->setDefaults(array(
+            'data_class' => 'AppBundle\Entity\User'
+        ));
     }
 }

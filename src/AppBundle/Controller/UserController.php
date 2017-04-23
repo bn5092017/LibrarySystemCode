@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\ChangePassword;
+use AppBundle\Form\CRUDuser;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;//class containing routing methods
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;//base controller class
@@ -44,13 +45,13 @@ class UserController extends Controller
     public function newAction(Request $request)
     {
         $user = new User();
-        $form = $this->createForm('AppBundle:CRUDuser', $user);
+        $form = $this->createForm(CRUDuser::class, $user);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
-            $em->flush($user);
+            $em->flush();
             return $this->redirectToRoute('list_users', ['id' => $user->getId()]);
         }
 

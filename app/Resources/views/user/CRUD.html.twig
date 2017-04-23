@@ -2,19 +2,15 @@
 {% block title %}CRUD user{% endblock %}
 {% block body %}
     <h1>Users</h1>
-    {{ form_start(searchForm) }}
-    {{ form_widget(searchForm) }}
-    <input type="submit" value="search" formnovalidate>
-    {{ form_end(searchForm) }}
-    <form>
-        ID: {{ user.id }}
-        username: <input type="text" value="{{ user.username }}">
-        first name: <input type="text" value="{{ user.firstname }}">
-        last name: <input type="text" value="{{ user.lastname }}">
-        address: <input type="text" value="{{ user.address }}">
-        email: <input type="text" value="{{ user.email }}">
-        password: <input type="text" value="{{ user.password }}">
-        Staff member: <input type="checkbox">
-        <input type="submit">
-    </form>
+    {{ form_start(form) }}
+    {{ form_row(form.username) }}
+    {{ form_row(form.firstname) }}
+    {{ form_row(form.lastname) }}
+    {{ form_row(form.address) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.plainPassword) }}
+    {{ form_row(form.role) }}
+    <input type="submit" value="update database" formnovalidate>
+    {{ form_end(form) }}
+
 {% endblock %}
