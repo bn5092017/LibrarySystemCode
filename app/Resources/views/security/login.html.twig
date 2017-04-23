@@ -8,6 +8,7 @@
     {{ form_start(form) }}
         {{ form_row(form._username) }}
         {{ form_row(form._password) }}
-        <input type="submit" value="login">
-    {{ form_end(form) }}
+        <input type="submit" value="login" formnovalidate>
+        {{ form_end(form) }}
+    <p><a href="{{ path('change_password') }}">click here to change your password</a></p>
 {% endblock %}

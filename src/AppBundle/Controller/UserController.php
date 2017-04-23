@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\User;
 use AppBundle\Form\ChangePassword;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;//class containing routing methods
@@ -29,11 +30,32 @@ class UserController extends Controller
     public function listAllUsers()
     {
         $em = $this->getDoctrine()->getManager();
-        $users = $em->getRepository('AppBundle\Entity\User')->findAll();
+        $users = $em->getRepository('AppBundle:User')->findAll();
         return $this->render('user/listAll.html.twig', [
-            'users'=>$users
-        ]
+                'users' => $users
+            ]
         );
+    }
+
+    /**
+     * @Route("/new", name="new_user")
+     * @Method({"GET", "POST"})
+     */
+    public function newAction(Request $request)
+    {
+        $user = new User();
+        $form = $this->createForm('AppBundle:CRUDuser', $user);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush($user);
+            return $this->redirectToRoute('list_users', ['id' => $user->getId()]);
+        }
+
+        return $this->render('user/CRUD.html.twig',
+            ['user' => $user, 'form' => $form->createView()]);
     }
 
     /**
@@ -44,18 +66,31 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('AppBundle\Entity\User')->findOneById($id);
         return $this->render('user/editUser.html.twig', [
-                'users'=>$users
+                'users' => $users
             ]
         );
     }
 
     /**
      * @Route("/changePassword", name="change_password")
+     *
+     * uses the Request class which contains methods to process submitted information
      */
-    public function changePasswordAction()
+    public function changePasswordAction(Request $request)
     {
-
+        //createForm is a built-in Controller method, this class extends the Controller class
         $form = $this->createForm(ChangePassword::class, []);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $password = $form->getData();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($password);
+            $em->flush;
+
+            return $this->redirectToRoute('homepage');
+        }
         return $this->render('user/changePassword.html.twig', [
             'form' => $form->createView(),
         ]);

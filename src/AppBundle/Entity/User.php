@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Role\Role;
 /**
  * User
  * Doctrine entity, a class with connections to the related table in the database
- * The User class implements the UserInterface to take advantage of Symfony built-in authentication and
+ * The User class implements UserInterface to take advantage of Symfony built-in authentication and
  * authorisation methods
  *
  * @ORM\Table(name="user")
@@ -290,7 +290,7 @@ class User implements UserInterface
 
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
+        // Automatic salting of passwords will be used
     }
 
     public function eraseCredentials()
@@ -298,5 +298,6 @@ class User implements UserInterface
         //this will prevent the plainPassword being saved
         $this->plainPassword = null;
     }
+
 }
 

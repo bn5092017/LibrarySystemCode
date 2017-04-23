@@ -20,8 +20,10 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Component\Security\Http\Util\TargetPathTrait;//class to redirect user after login
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
+
+
 
 //extends a class with login methods that also extends other classes AbstractGuardAuthenticator and GuardAuthenticatorInterface
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
@@ -84,21 +86,22 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         if($this->passwordEncoder->isPasswordValid($user, $password)){
             return true;
         }
+
+        return false;
     }
 
     protected function getLoginUrl()
     {
         //redirects to the login page if login is unsuccessful
-        return $this->router->generate('security_login');
+        return $this->router->generate('login');
     }
 
-    //class to redirect user after login
     use TargetPathTrait;
-
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         //this function redirects a user to the page they were on when they had to login for access
         $targetPath = $this->getTargetPath($request->getSession(), $providerKey);
+        //default is to send to the homepage
         if(!$targetPath) {
             $targetPath = $this->router->generate('homepage');
         }

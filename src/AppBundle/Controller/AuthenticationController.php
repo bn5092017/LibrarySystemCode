@@ -12,28 +12,28 @@ use AppBundle\Form\LoginForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;//class containing routing methods
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;//base controller class
 
-class SecurityController extends Controller
+class AuthenticationController extends Controller
 {
     /**
-     * @Route("/login", name="security_login")
+     * @Route("/login", name="login")
      */
     public function loginAction()
     {
         //use built-in security error handling utility
         $authUtil = $this->get('security.authentication_utils');
-        $error = $authUtil->getLastAuthenticationError();
+        $e = $authUtil->getLastAuthenticationError();
         $lastUsername = $authUtil->getLastUsername();
         $form = $this->createForm(LoginForm::class, [
             '_username' => $lastUsername,
         ]);
         return $this->render('security/login.html.twig', [
                 'form' => $form->createView(),
-                'error' => $error,
+                'error' => $e,
             ]);
     }
 
     /**
-     * @Route("/logout", name="security_logout")
+     * @Route("/logout", name="logout")
      */
     public function logoutAction()
     {

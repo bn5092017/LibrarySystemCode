@@ -14,7 +14,7 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 
-class HashPasswordListener implements EventSubscriber
+class PasswordListener implements EventSubscriber
 {
     private $passwordEncoder;
 
@@ -31,7 +31,7 @@ class HashPasswordListener implements EventSubscriber
      */
     public function getSubscribedEvents()
     {
-        // Doctrine generated arrays, prior to the functions that will persist or update data to the database
+        // call functions that will access information from Doctrine generated arrays prior to updating the database
         return ['prePersist', 'preUpdate'];
     }
 

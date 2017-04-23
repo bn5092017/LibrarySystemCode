@@ -14,8 +14,8 @@ services:
 
     # use the password listener class as a service that can be called on.
     # the tag is used to identify when to call the listener service
-    app.doctrine.hash_password_listener:
-        class: AppBundle\Doctrine\HashPasswordListener
+    app.doctrine.password_listener:
+        class: AppBundle\Doctrine\PasswordListener
         autowire: true
         tags:
             - {name: doctrine.event_subscriber}
