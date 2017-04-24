@@ -41,4 +41,29 @@ class AuthenticationController extends Controller
         // by built-in Symfony function but without a route, this would just throw a 404 error
         throw new \Exception('Problem with logout function');
     }
+
+    /**
+     * @Route("/changePassword", name="change_password")
+     *
+     * uses the Request class which contains methods to process submitted information
+     */
+    public function changePasswordAction(Request $request)
+    {
+        //createForm is a built-in Controller method, this class extends the Controller class
+        $form = $this->createForm(ChangePassword::class, []);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $password = $form->getData();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($password);
+            $em->flush;
+
+            return $this->redirectToRoute('homepage');
+        }
+        return $this->render('user/changePassword.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 }

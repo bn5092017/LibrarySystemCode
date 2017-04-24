@@ -85,9 +85,9 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="role", type="string", length=255)
+     * @ORM\Column(name="roles", type="string", length=255)
      */
-    private $role;
+    private $roles;
 
 
     /**
@@ -265,27 +265,27 @@ class User implements UserInterface
     }
 
     /**
-     * Set role
+     * Set roles
      *
-     * @param string $role
+     * @param string $roles
      *
      * @return User
      */
-    public function setRoles($role)
+    public function setRoles($roles)
     {
-        $this->role = $role;
+        $this->roles = $roles;
 
         return $this;
     }
 
     /**
-     * Get role
+     * Get roles
      *
      * @return string
      */
     public function getRoles()
     {
-        return ['ROLE_USER'];//basic user role
+        return $this->roles;
     }
 
     public function getSalt()
