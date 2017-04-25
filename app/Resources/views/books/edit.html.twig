@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block title %}new books{% endblock %}
+{% block body %}
+    <h1>Edit book record</h1>
+
+    {{ form_start(edit_form) }}
+    {{ form_row(edit_form.isbn) }}
+    {{ form_row(edit_form.title) }}
+    {{ form_row(edit_form.author) }}
+    {{ form_row(edit_form.publisher) }}
+    {{ form_row(edit_form.date) }}
+    {{ form_row(edit_form.catagory) }}
+    {{ form_row(edit_form.description) }}
+    <input type="submit" value="Edit" />
+    {{ form_end(edit_form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('book_index') }}">Back to the list</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+            <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

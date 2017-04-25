@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+{% block title %}Staff homepage{% endblock %}
+{% block body %}
+    <a href="{{ path('user_index') }}">list of users</a>
+    <a href="{{ path('book_index') }}">list of books</a>
+    <a href="{{ path('myLoans') }}">MyLoans page</a>
+{% endblock %}

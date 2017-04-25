@@ -8,10 +8,7 @@
         <th>Isbn</th>
         <th>Title</th>
         <th>Author</th>
-        <th>Publisher</th>
-        <th>Date of Publication</th>
         <th>Catagory</th>
-        <th>Description</th>
     </tr>
     </thead>
     <tbody>
@@ -20,10 +17,7 @@
             <td><a href="{{ path('book_show', { 'id': book.isbn }) }}">{{ book.isbn }}</a></td>
             <td>{{ book.title }}</td>
             <td>{{ book.author }}</td>
-            <td>{{ book.publisher }}</td>
-            <td>{{ book.date }}</td>
             <td>{{ book.catagory }}</td>
-            <td>{{ book.description }}</td>
             <td>
                 <ul>
                     <li>

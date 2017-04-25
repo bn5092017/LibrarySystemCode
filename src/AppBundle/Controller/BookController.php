@@ -25,16 +25,15 @@ use Symfony\Component\HttpFoundation\Response;
 class BookController extends Controller
 {
     /**
-     * @Route("/", name="list_books")
+     * @Route("/", name="book_index")
      */
     public function listAllBooks()
     {
         $em = $this->getDoctrine()->getManager();
         $books = $em->getRepository('AppBundle\Entity\Books')->findAll();
-        $listOfCatagories = 'Fiction, Sci-fi, Biography, Childrens';
-        return $this->render('books/listAll.html.twig', array(
+
+        return $this->render('books/index.html.twig', array(
             'books'=>$books,
-            'list'=>$listOfCatagories
         ));
     }
 
@@ -72,7 +71,7 @@ class BookController extends Controller
             $list = $form->getData();
 
             $this->addFlash('success', 'list of books');
-            return $this->redirectToRoute('list_books');
+            return $this->redirectToRoute('book_index');
         }
 
         return $this->render('books/search.html.twig', [
@@ -132,7 +131,7 @@ class BookController extends Controller
     {
         $deleteForm = $this->createDeleteForm($books);
 
-        return $this->render('books/show.html.twig', array(
+        return $this->render('books/oneBook.html.twig', array(
             'book' => $books,
             'delete_form' => $deleteForm->createView(),
         ));

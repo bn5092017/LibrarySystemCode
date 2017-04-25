@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;//base controller class
@@ -38,5 +39,24 @@ class MainController extends Controller
     {
 
         return $this->render('main/sitemap.html.twig');
+    }
+
+    /**
+     * @Route("/myLoans", name="myLoans")
+     */
+    public function myLoansAction()
+    {
+        $user = ['username' => 'fred'];
+
+        return $this->render('main/myLoans.html.twig', array('user' => $user));
+    }
+
+    /**
+     * @Route("/adminHome", name="adminHome")
+     */
+    public function adminHomeAction()
+    {
+
+        return $this->render('main/adminHome.html.twig');
     }
 }
