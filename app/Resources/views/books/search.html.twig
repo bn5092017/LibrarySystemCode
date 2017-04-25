@@ -6,7 +6,9 @@
         Enter title, author or keyword to search all books
     </p>
     {{ form_start(searchForm) }}
-    {{ form_widget(searchForm) }}
+    {{ form_row(searchForm.author) }}
+    {{ form_row(searchForm.title) }}
+    {{ form_row(searchForm.catagory) }}
     <input type="submit" value="search" formnovalidate>
     {{ form_end(searchForm) }}
 

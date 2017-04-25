@@ -14,4 +14,12 @@ namespace AppBundle\Repository;
  */
 class BooksRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllBookMatchingSearch()
+    {
+        return $this->createQueryBuilder('books')
+            ->andWhere('books.author = :author')
+            ->setParameter('author', 'author')
+            ->getQuery()
+            ->execute();
+    }
 }

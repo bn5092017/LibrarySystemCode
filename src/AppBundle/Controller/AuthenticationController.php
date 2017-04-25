@@ -8,9 +8,11 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\AppBundle;
 use AppBundle\Form\LoginForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;//class containing routing methods
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;//base controller class
+use Symfony\Component\HttpFoundation\Request;
 
 class AuthenticationController extends Controller
 {
@@ -33,6 +35,24 @@ class AuthenticationController extends Controller
     }
 
     /**
+     * @Route("/staffLogin", name="staff_login")
+     */
+    public function staffLoginAction()
+    {
+        //use built-in security error handling utility
+        $authUtil = $this->get('security.authentication_utils');
+        $e = $authUtil->getLastAuthenticationError();
+        $lastUsername = $authUtil->getLastUsername();
+        $form = $this->createForm(LoginForm::class, [
+            '_username' => $lastUsername,
+        ]);
+        return $this->render('security/staffLogin.html.twig', [
+            'form' => $form->createView(),
+            'error' => $e,
+        ]);
+    }
+
+    /**
      * @Route("/logout", name="logout")
      */
     public function logoutAction()
@@ -50,7 +70,7 @@ class AuthenticationController extends Controller
     public function changePasswordAction(Request $request)
     {
         //createForm is a built-in Controller method, this class extends the Controller class
-        $form = $this->createForm(ChangePassword::class, []);
+        $form = $this->createForm('AppBundle\Form\ChangePassword', []);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -58,11 +78,11 @@ class AuthenticationController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($password);
-            $em->flush;
+            $em->flush();
 
             return $this->redirectToRoute('homepage');
         }
-        return $this->render('user/changePassword.html.twig', [
+        return $this->render('security/changePassword.html.twig', [
             'form' => $form->createView(),
         ]);
     }

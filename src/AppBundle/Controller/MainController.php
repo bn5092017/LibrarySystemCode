@@ -30,4 +30,13 @@ class MainController extends Controller
 
         return $this->render('main/about.html.twig');
     }
+
+    /**
+     * @Route("/sitemap", name="sitemap")
+     */
+    public function sitemapAction()
+    {
+
+        return $this->render('main/sitemap.html.twig');
+    }
 }

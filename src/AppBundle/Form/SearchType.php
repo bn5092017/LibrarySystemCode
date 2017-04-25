@@ -19,7 +19,8 @@ class SearchType extends AbstractType
     {
         $builder->add('author')
             ->add('title')
-           // ->add('keyword', ['mapped' => false])
+            ->add('catagory')
+            //->add('keyword', ['mapped' => false])
         ;
     }
 

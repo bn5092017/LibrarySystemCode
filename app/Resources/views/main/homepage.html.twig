@@ -2,6 +2,10 @@
 {% block title %}home{% endblock %}
 {% block body %}
     <h1>Welcome to Libsys</h1>
-    <a href="{{ path('list_books') }}">list of books</a>
-    <a href="{{ path('user_index') }}">list of users</a>
+    <p class="centre">
+        Libsys is a library information management system.
+    </p>
+    <p class="centre">
+        <a href="{{ path('search_books') }}">Search</a> our catalogue or <a href="{{ path('login') }}">login</a> to view your MyLoans page.
+    </p>
 {% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% block title %}new books{% endblock %}
+{% block body %}
+    <h1>Book record creation</h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.isbn) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.author) }}
+    {{ form_row(form.publisher) }}
+    {{ form_row(form.date) }}
+    {{ form_row(form.catagory) }}
+    {{ form_row(form.description) }}
+    <input type="submit" value="Add" />
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('book_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

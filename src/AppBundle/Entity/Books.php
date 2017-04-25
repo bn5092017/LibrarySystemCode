@@ -73,9 +73,9 @@ class Books
      *
      * @return int
      */
-    public function getId()
+    public function getIsbn()
     {
-        return $this->id;
+        return $this->isbn;
     }
 
     /**

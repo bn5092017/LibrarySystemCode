@@ -9,13 +9,27 @@ body{
     font-family: Verdana, Arial, sans-serif;
 }
 
+ul{
+    list-style-type: none;
+}
+
+.centre{
+    text-align: center;
+}
+
 h1{
     font-size: 2rem;
     text-align: center;
 }
 
+h1.authWarning{
+    font-size: 3rem;
+    text-align: center;
+    color: #009;
+}
+
 /* nav styling */
-nav {
+nav{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -39,6 +53,4 @@ nav a.current_page{
     color: #303;
 }
 
-ul {
-    list-style-type: none;
-}
+

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block title %}sitemap{% endblock %}
+{% block body %}
+    <h1>Libsys sitemap</h1>
+    <ul>
+        <li><a href="{{ path('homepage') }}">homepage</a></li>
+        <li><a href="{{ path('about') }}">about</a></li>
+        <li><a href="{{ path('login') }}">login</a></li>
+        <li><a href="{{ path('staff_login') }}">staff login</a></li>
+        <li><a href="{{ path('list_books') }}">list of books</a></li>
+    </ul>
+{% endblock %}

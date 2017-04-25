@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Books;
 use AppBundle\Form\SearchType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -35,6 +36,28 @@ class BookController extends Controller
             'books'=>$books,
             'list'=>$listOfCatagories
         ));
+    }
+
+    /**
+     * @Route("/searchAuthor", name="search_books_author")
+     */
+    public function searchAuthorAction(Request $request)
+    {
+        $form = $this->createForm(SearchType::class);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $list = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $books = $em->getRepository('AppBundle:Books')->findAllBookMatchingSearch();
+
+            $this->addFlash('success', 'list of books');
+            return $this->render('books/searchResults.html.twig', ['books' => $books, 'list' => $list]);
+        }
+
+        return $this->render('books/search.html.twig', [
+            'searchForm' => $form->createView(),
+        ]);
     }
 
     /**
@@ -71,5 +94,108 @@ class BookController extends Controller
         $data = ['details'=>$details];
 
         return new jsonResponse($data);
+    }
+
+    /**
+     * Creates a new books entity.
+     *
+     * @Route("/new", name="book_new")
+     * @Method({"GET", "POST"})
+     */
+    public function newAction(Request $request)
+    {
+        $book = new Books();
+        $form = $this->createForm('AppBundle\Form\BooksType', $book);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($book);
+            $em->flush($book);
+
+            return $this->redirectToRoute('book_show', array('id' => $book->getIsbn()));
+        }
+
+        return $this->render('books/new.html.twig', array(
+            'book' => $book,
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Finds and displays a books entity.
+     *
+     * @Route("/{id}", name="book_show")
+     * @Method("GET")
+     */
+    public function showAction(Books $books)
+    {
+        $deleteForm = $this->createDeleteForm($books);
+
+        return $this->render('books/show.html.twig', array(
+            'book' => $books,
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * Displays a form to edit an existing books entity.
+     *
+     * @Route("/{id}/edit", name="book_edit")
+     * @Method({"GET", "POST"})
+     */
+    public function editAction(Request $request, Books $books)
+    {
+        $deleteForm = $this->createDeleteForm($books);
+        $editForm = $this->createForm('AppBundle\Form\BooksType', $books);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('book_edit', array('id' => $books->getIsbn()));
+        }
+
+        return $this->render('books/edit.html.twig', array(
+            'book' => $books,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * Deletes a books entity.
+     *
+     * @Route("/{id}", name="book_delete")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, Books $books)
+    {
+        $form = $this->createDeleteForm($books);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($books);
+            $em->flush($books);
+        }
+
+        return $this->redirectToRoute('book_index');
+    }
+
+    /**
+     * Creates a form to delete a books entity.
+     *
+     * @param Books $books The books entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(Books $books)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('book_delete', array('id' => $books->getIsbn())))
+            ->setMethod('DELETE')
+            ->getForm()
+            ;
     }
 }

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block title %}staff login {% endblock %}
+{% block body %}
+    <h1 class="authWarning"> *** WARNING: AUTHORISED ACCESS ONLY ***</h1>
+    <h1>Login</h1>
+    {% if error %}
+        {{ error.messageKey|trans(error.messageData, 'security') }}
+    {% endif %}
+    {{ form_start(form) }}
+    {{ form_row(form._username) }}
+    {{ form_row(form._password) }}
+    <input type="submit" value="login" formnovalidate>
+    {{ form_end(form) }}
+    <p><a href="{{ path('change_password') }}">click here to change your password</a></p>
+{% endblock %}

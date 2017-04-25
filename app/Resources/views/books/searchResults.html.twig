@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+{% block title %}search results {% endblock %}
+{% block body %}
+    <h1>Search results</h1>
+    <ul>
+        {% for item in list %}
+            <li>{{ item.author }}, <strong>{{ item.title }}</strong>, <em>{{ item.catagory }}</em></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

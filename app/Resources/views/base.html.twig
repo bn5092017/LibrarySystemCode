@@ -21,9 +21,8 @@
         {% else %}
         <a href="{{ path('login') }}">login</a>
         {% endif %}
-        <a href="{{ path('homepage') }}">register</a>
-        <a href="{{ path('login') }}">Staff</a>
-        <a href="{{ path('homepage') }}">sitemap</a>
+        <a href="{{ path('staff_login') }}">Staff</a>
+        <a href="{{ path('sitemap') }}">sitemap</a>
     </nav>
         {% for msg in app.session.flashBag.get('success') %}
             {{ msg }}
