@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+//use AppBundle\Entity\Books;
 
 /**
  * BooksRepository
@@ -14,11 +15,22 @@ namespace AppBundle\Repository;
  */
 class BooksRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findAllBookMatchingSearch()
+    /**
+     * @param Books $books
+     *
+     * @return mixed
+     */
+    public function findAllBookMatchingSearch(Books $books)
     {
         return $this->createQueryBuilder('books')
-            ->andWhere('books.author = :author')
-            ->setParameter('author', 'author')
+            ->select(array('books'))
+            ->from('Books', 'books')
+            ->Where('books.author = :author')
+            ->setParameter('author', $books[2])
+            ->orWhere('books.title = :title')
+            ->setParameter('title', $books[1])
+            ->orWhere('books.catagory = :catagory')
+            ->setParameter('catagory', $books[5])
             ->getQuery()
             ->execute();
     }

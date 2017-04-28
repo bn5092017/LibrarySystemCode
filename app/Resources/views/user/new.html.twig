@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% block title %}create user{% endblock %}
 {% block body %}
     <h1>User creation</h1>
 
@@ -9,7 +9,7 @@
     {{ form_row(form.lastname) }}
     {{ form_row(form.address) }}
     {{ form_row(form.email) }}
-    {{ form_row(form.password) }}
+    {{ form_row(form.plainPassword, {'label':'Password'}) }}
     {{ form_row(form.roles) }}
         <input type="submit" value="Create" />
     {{ form_end(form) }}

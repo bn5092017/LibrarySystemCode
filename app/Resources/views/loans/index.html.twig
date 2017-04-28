@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Loans list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Dateout</th>
+                <th>Datedueback</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for loan in loans %}
+            <tr>
+                <td><a href="{{ path('loans_show', { 'id': loan.id }) }}">{{ loan.id }}</a></td>
+                <td>{% if loan.dateOut %}{{ loan.dateOut|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if loan.dateDueBack %}{{ loan.dateDueBack|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('loans_show', { 'id': loan.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('loans_edit', { 'id': loan.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('loans_new') }}">Create a new loan</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -23,19 +23,22 @@
                     <li>
                         <a href="{{ path('book_show', { 'id': book.isbn }) }}">show</a>
                     </li>
+                    {% if is_granted('ROLE_STAFF') %}{#only show this option if staff user#}
                     <li>
                         <a href="{{ path('book_edit', { 'id': book.isbn }) }}">edit</a>
                     </li>
+                    {% endif %}
                 </ul>
             </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
-
+    {% if is_granted('ROLE_STAFF') %}{#only show this option if staff user#}
 <ul>
     <li>
         <a href="{{ path('book_new') }}">Add a new book</a>
     </li>
 </ul>
+    {% endif %}
 {% endblock %}

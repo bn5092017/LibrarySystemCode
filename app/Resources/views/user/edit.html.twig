@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% block title %}edit user {{ user.id }} {% endblock %}
 {% block body %}
     <h1>User edit</h1>
 
@@ -9,7 +9,7 @@
         {{ form_row(edit_form.lastname) }}
         {{ form_row(edit_form.address) }}
         {{ form_row(edit_form.email) }}
-        {{ form_row(edit_form.password) }}
+        {{ form_row(edit_form.plainPassword, {'label':'Password'}) }}
         {{ form_row(edit_form.roles) }}
         <input type="submit" value="Edit" />
     {{ form_end(edit_form) }}

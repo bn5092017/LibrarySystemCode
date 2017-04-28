@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
  * User controller.
  *
  * @Route("user")
+ * @Security("is_granted('ROLE_STAFF')")
  */
 class UserController extends Controller
 {
@@ -49,7 +51,7 @@ class UserController extends Controller
             $em->persist($user);
             $em->flush($user);
 
-            return $this->redirectToRoute('user_show', array('id' => $user->getId()));
+            return $this->redirectToRoute('user_index');
         }
 
         return $this->render('user/new.html.twig', array(
@@ -89,7 +91,7 @@ class UserController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_edit', array('id' => $user->getId()));
+            return $this->redirectToRoute('user_show', array('id' => $user->getId()));
         }
 
         return $this->render('user/edit.html.twig', array(

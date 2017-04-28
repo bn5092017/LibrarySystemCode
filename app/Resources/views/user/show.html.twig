@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% block title %}user {{ user.id }} {% endblock %}
 {% block body %}
     <h1>User</h1>
 
@@ -30,12 +30,8 @@
                 <td>{{ user.email }}</td>
             </tr>
             <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
                 <th>Role</th>
-                <td>{{ user.roles }}</td>
+                <td>{{ user.roles.0}}</td>
             </tr>
         </tbody>
     </table>

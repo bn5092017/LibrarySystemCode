@@ -85,9 +85,9 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="roles", type="string", length=255)
+     * @ORM\Column(name="roles", type="json_array")
      */
-    private $roles;
+    private $roles = [];
 
 
     /**
@@ -267,11 +267,11 @@ class User implements UserInterface
     /**
      * Set roles
      *
-     * @param string $roles
+     * @param array $roles
      *
      * @return User
      */
-    public function setRoles($roles)
+    public function setRoles(array $roles)
     {
         $this->roles = $roles;
 
@@ -281,11 +281,15 @@ class User implements UserInterface
     /**
      * Get roles
      *
-     * @return string
+     * @return array
      */
     public function getRoles()
     {
-        return $this->roles;
+        $roles = $this->roles;
+        if(!in_array('ROLE_USER', $roles)){
+            $roles[]='ROLE_USER';
+        }
+        return $roles;
     }
 
     public function getSalt()

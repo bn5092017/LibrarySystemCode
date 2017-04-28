@@ -4,7 +4,6 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -20,8 +19,15 @@ class UserType extends AbstractType
             ->add('lastname')
             ->add('address')
             ->add('email')
-            ->add('plainPassword')
-            ->add('roles');
+            ->add('plainPassword')//plainPassword input into forms, see PasswordListener class
+            ->add('roles', ChoiceType::class, [//renders options instead of free-text textbox
+                'multiple' => true,//allows multiple selection
+                'expanded' => true,//renders checkboxes if multiple is true or else radio buttons
+                'choices' => [
+                    'user' => 'ROLE_USER',
+                    'staff' => 'ROLE_STAFF'
+                ]
+            ]);
     }
     
     /**

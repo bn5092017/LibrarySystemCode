@@ -8,12 +8,17 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\AppBundle;
+use AppBundle\Entity\User;
 use AppBundle\Form\LoginForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;//class containing routing methods
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;//base controller class
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class AuthenticationController
+ * @package AppBundle\Controller
+ *
+ */
 class AuthenticationController extends Controller
 {
     /**
@@ -23,11 +28,16 @@ class AuthenticationController extends Controller
     {
         //use built-in security error handling utility
         $authUtil = $this->get('security.authentication_utils');
-        $e = $authUtil->getLastAuthenticationError();
-        $lastUsername = $authUtil->getLastUsername();
+        $e = $authUtil->getLastAuthenticationError();//displays error message
+        $lastUsername = $authUtil->getLastUsername();//autofills username on failed login
         $form = $this->createForm(LoginForm::class, [
             '_username' => $lastUsername,
         ]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->addFlash('success', sprintf('Welcome %s', $this->getUser()->getUsername()));
+
+            return $this->render('main/myLoans.html.twig');
+        }
         return $this->render('security/login.html.twig', [
                 'form' => $form->createView(),
                 'error' => $e,
@@ -41,11 +51,15 @@ class AuthenticationController extends Controller
     {
         //use built-in security error handling utility
         $authUtil = $this->get('security.authentication_utils');
-        $e = $authUtil->getLastAuthenticationError();
-        $lastUsername = $authUtil->getLastUsername();
+        $e = $authUtil->getLastAuthenticationError();//displays error message
+        $lastUsername = $authUtil->getLastUsername();//autofills username on failed login
         $form = $this->createForm(LoginForm::class, [
             '_username' => $lastUsername,
         ]);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            return $this->redirectToRoute('adminHome');
+        }
         return $this->render('security/staffLogin.html.twig', [
             'form' => $form->createView(),
             'error' => $e,
@@ -63,27 +77,22 @@ class AuthenticationController extends Controller
     }
 
     /**
-     * @Route("/changePassword", name="change_password")
-     *
-     * uses the Request class which contains methods to process submitted information
+     * @Route("/myLoans", name="myLoans")
      */
-    public function changePasswordAction(Request $request)
+    public function myLoansAction()
     {
-        //createForm is a built-in Controller method, this class extends the Controller class
-        $form = $this->createForm('AppBundle\Form\ChangePassword', []);
+        $user = ['username' => 'fred'];
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $password = $form->getData();
+        return $this->render('security/myLoans.html.twig', array('user' => $user));
+    }
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($password);
-            $em->flush();
 
-            return $this->redirectToRoute('homepage');
-        }
-        return $this->render('security/changePassword.html.twig', [
-            'form' => $form->createView(),
-        ]);
+    /**
+     * @Route("/adminHome", name="adminHome")
+     */
+    public function adminHomeAction()
+    {
+
+        return $this->render('security/adminHome.html.twig');
     }
 }

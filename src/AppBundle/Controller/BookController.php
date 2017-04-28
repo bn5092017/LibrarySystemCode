@@ -11,8 +11,10 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Books;
 use AppBundle\Form\SearchType;
+use AppBundle\Repository\BooksRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;//base controller class
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,6 +41,7 @@ class BookController extends Controller
 
     /**
      * @Route("/searchAuthor", name="search_books_author")
+     * @Method("GET")
      */
     public function searchAuthorAction(Request $request)
     {
@@ -48,10 +51,10 @@ class BookController extends Controller
         if($form->isSubmitted() && $form->isValid()){
             $list = $form->getData();
             $em = $this->getDoctrine()->getManager();
-            $books = $em->getRepository('AppBundle:Books')->findAllBookMatchingSearch();
+            $books = $em->getRepository('AppBundle:Books')->findAllBookMatchingSearch($list);
 
             $this->addFlash('success', 'list of books');
-            return $this->render('books/searchResults.html.twig', ['books' => $books, 'list' => $list]);
+            return $this->render('books/searchResults.html.twig', ['books' => $books]);
         }
 
         return $this->render('books/search.html.twig', [
@@ -61,17 +64,22 @@ class BookController extends Controller
 
     /**
      * @Route("/search", name="search_books")
+     * @Method({"GET", "POST"})
      */
     public function searchAction(Request $request)
     {
-        $form = $this->createForm(SearchType::class);
+        $books = new BooksRepository();
+        $form = $this->createForm(SearchType::class, $books);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $list = $form->getData();
-
+            $search = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $list = $em->getRepository('AppBundle:Books')->findAllBookMatchingSearch($search);
             $this->addFlash('success', 'list of books');
-            return $this->redirectToRoute('book_index');
+            return $this->render('books/searchResults.html.twig', [
+                'list' => $list,
+            ]);
         }
 
         return $this->render('books/search.html.twig', [
@@ -80,25 +88,10 @@ class BookController extends Controller
     }
 
     /**
-     * @return jsonResponse
-     * @Route("/books/{bookId}/details", name="book_show_details")
-     * @Method("GET")
-     */
-    public function getDetailsAction()
-    {
-        $details = [
-            ['title'=>'book1', 'author'=>'J. Bloggs'],
-            ['title'=>'book2', 'author'=>'A. N. Other']
-        ];
-        $data = ['details'=>$details];
-
-        return new jsonResponse($data);
-    }
-
-    /**
      * Creates a new books entity.
      *
      * @Route("/new", name="book_new")
+     * @Security("is_granted('ROLE_STAFF')")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -141,6 +134,7 @@ class BookController extends Controller
      * Displays a form to edit an existing books entity.
      *
      * @Route("/{id}/edit", name="book_edit")
+     * @Security("is_granted('ROLE_STAFF')")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Books $books)
@@ -166,6 +160,7 @@ class BookController extends Controller
      * Deletes a books entity.
      *
      * @Route("/{id}", name="book_delete")
+     * @Security("is_granted('ROLE_STAFF')")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Books $books)

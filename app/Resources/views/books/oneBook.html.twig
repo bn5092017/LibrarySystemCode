@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}book{% endblock %}
+{% block title %}book {{ book.isbn }}{% endblock %}
 {% block body %}
     <h1>Book</h1>
 
@@ -40,6 +40,7 @@
         <li>
             <a href="{{ path('book_index') }}">Back to the list</a>
         </li>
+        {% if is_granted('ROLE_STAFF') %}{#only show this option if staff user#}
         <li>
             <a href="{{ path('book_edit', { 'id': book.isbn }) }}">Edit</a>
         </li>
@@ -48,5 +49,6 @@
             <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
+        {% endif %}
     </ul>
 {% endblock %}
