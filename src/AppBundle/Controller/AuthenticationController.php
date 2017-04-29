@@ -58,7 +58,7 @@ class AuthenticationController extends Controller
         ]);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            return $this->redirectToRoute('adminHome');
+            return $this->render('security/adminHome.html.twig');
         }
         return $this->render('security/staffLogin.html.twig', [
             'form' => $form->createView(),
@@ -77,7 +77,7 @@ class AuthenticationController extends Controller
     }
 
     /**
-     * @Route("/myLoans", name="myLoans")
+     * @Route("/myLoans", name="my_loans")
      */
     public function myLoansAction()
     {

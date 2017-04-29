@@ -1,23 +1,30 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: jennifer
+ * Date: 29/04/17
+ * Time: 18:08
+ */
 
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
-class LoansType extends AbstractType
+class EditLoans extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        //dates are calculated in the method newAction and are not needed in the form
+        //no need to modify the dateOut property
         $builder->add('bookIsbn')
-            ->add('userId');
+            ->add('userId')
+            ->add('dateDueBack', DateType::class);
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -27,14 +34,4 @@ class LoansType extends AbstractType
             'data_class' => 'AppBundle\Entity\Loans'
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'appbundle_loans';
-    }
-
-
 }

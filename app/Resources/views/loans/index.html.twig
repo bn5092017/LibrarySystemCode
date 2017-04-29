@@ -7,22 +7,23 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Dateout</th>
-                <th>Datedueback</th>
+                <th>Book ISBN</th>
+                <th>User Id</th>
+                <th>Date out</th>
+                <th>Date due back</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for loan in loans %}
             <tr>
-                <td><a href="{{ path('loans_show', { 'id': loan.id }) }}">{{ loan.id }}</a></td>
-                <td>{% if loan.dateOut %}{{ loan.dateOut|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if loan.dateDueBack %}{{ loan.dateDueBack|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ loan.id }}</td>
+                <td>{{ loan.bookIsbn }}</td>
+                <td>{{ loan.userId }}</td>
+                <td>{{ loan.dateOut|date('Y-m-d') }}</td>
+                <td>{{ loan.dateDueBack|date('Y-m-d') }}</td>
                 <td>
                     <ul>
-                        <li>
-                            <a href="{{ path('loans_show', { 'id': loan.id }) }}">show</a>
-                        </li>
                         <li>
                             <a href="{{ path('loans_edit', { 'id': loan.id }) }}">edit</a>
                         </li>

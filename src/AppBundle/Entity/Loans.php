@@ -110,5 +110,37 @@ class Loans
     {
         return $this->dateDueBack;
     }
+
+    /**
+     * @return int
+     */
+    public function getBookIsbn()
+    {
+        return $this->bookIsbn;
+    }
+
+    /**
+     * @param int $bookIsbn
+     */
+    public function setBookIsbn($bookIsbn)
+    {
+        $this->bookIsbn = $bookIsbn;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * @param int $userId
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    }
 }
 

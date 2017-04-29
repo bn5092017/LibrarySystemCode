@@ -4,13 +4,20 @@
     <h1>Loan edit</h1>
 
     {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
+    {{ form_row(edit_form.bookIsbn) }}
+    {{ form_row(edit_form.userId) }}
+    {{ form_row(edit_form.dateDueBack) }}
         <input type="submit" value="Edit" />
     {{ form_end(edit_form) }}
 
     <ul>
         <li>
             <a href="{{ path('loans_index') }}">Back to the list</a>
+        </li>
+        <li>
+            {{ form_start(renew_form) }}
+            <input type="submit" value="Renew">
+            {{ form_end(renew_form) }}
         </li>
         <li>
             {{ form_start(delete_form) }}

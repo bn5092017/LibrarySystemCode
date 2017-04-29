@@ -5,7 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Loans;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Loan controller.
@@ -39,16 +40,18 @@ class LoansController extends Controller
      */
     public function newAction(Request $request)
     {
-        $loan = new Loan();
+        $loan = new Loans();
         $form = $this->createForm('AppBundle\Form\LoansType', $loan);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $loan->setDateOut(new \DateTime('NOW'));//sets date to today
+            $loan->setDateDueBack(new \DateTime('NOW + 21 days')) ;//sets to 3 weeks from today
             $em = $this->getDoctrine()->getManager();
             $em->persist($loan);
             $em->flush($loan);
 
-            return $this->redirectToRoute('loans_show', array('id' => $loan->getId()));
+            return $this->redirectToRoute('loans_index');
         }
 
         return $this->render('loans/new.html.twig', array(
@@ -58,19 +61,41 @@ class LoansController extends Controller
     }
 
     /**
-     * Finds and displays a loan entity.
-     *
-     * @Route("/{id}", name="loans_show")
-     * @Method("GET")
+     * Renew loan entity.
+     * Selecting this will automatically add 3 weeks to loan due back date
+     * @Route("/{id}", name="loans_renew")
+     * @Method({"POST"})
      */
-    public function showAction(Loans $loan)
+    public function renewAction(Request $request, Loans $loan)
     {
-        $deleteForm = $this->createDeleteForm($loan);
+        $form = $this->createRenewForm($loan);
+        $form->handleRequest($request);
 
-        return $this->render('loans/show.html.twig', array(
-            'loan' => $loan,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        if ($form->isSubmitted() && $form->isValid()) {
+            $loan->setDateDueBack(new \DateTime('NOW + 21 days'));
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($loan);
+            $em->flush($loan);
+        }
+
+        return $this->redirectToRoute('loans_index');
+    }
+
+    /**
+     * Creates a form to renew a loan entity.
+     * This displays as an option, not a full form
+     *
+     * @param Loans $loan The loan entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createRenewForm(Loans $loan)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('loans_renew', array('id' => $loan->getId())))
+            ->setMethod('POST')
+            ->getForm()
+            ;
     }
 
     /**
@@ -82,7 +107,9 @@ class LoansController extends Controller
     public function editAction(Request $request, Loans $loan)
     {
         $deleteForm = $this->createDeleteForm($loan);
-        $editForm = $this->createForm('AppBundle\Form\LoansType', $loan);
+        $renewForm = $this->createRenewForm($loan);
+        //needs a different form to show different fields to the 'new' form
+        $editForm = $this->createForm('AppBundle\Form\EditLoans', $loan);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -95,6 +122,7 @@ class LoansController extends Controller
             'loan' => $loan,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'renew_form' => $renewForm->createView()
         ));
     }
 

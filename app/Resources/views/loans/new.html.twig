@@ -4,7 +4,8 @@
     <h1>Loan creation</h1>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
+    {{ form_row(form.bookIsbn) }}
+    {{ form_row(form.userId) }}
         <input type="submit" value="Create" />
     {{ form_end(form) }}
 
