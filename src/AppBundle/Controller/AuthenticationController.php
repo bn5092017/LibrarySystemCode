@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class AuthenticationController extends Controller
 {
+
     /**
      * @Route("/login", name="login")
      */
@@ -28,7 +29,7 @@ class AuthenticationController extends Controller
     {
         //use built-in security error handling utility
         $authUtil = $this->get('security.authentication_utils');
-        $e = $authUtil->getLastAuthenticationError();//displays error message
+        $e = $authUtil->getLastAuthenticationError();//displays error message from
         $lastUsername = $authUtil->getLastUsername();//autofills username on failed login
         $form = $this->createForm(LoginForm::class, [
             '_username' => $lastUsername,
@@ -36,7 +37,7 @@ class AuthenticationController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('success', sprintf('Welcome %s', $this->getUser()->getUsername()));
 
-            return $this->render('main/myLoans.html.twig');
+            return $this->redirectToRoute('my_loans');
         }
         return $this->render('security/login.html.twig', [
                 'form' => $form->createView(),
@@ -81,7 +82,8 @@ class AuthenticationController extends Controller
      */
     public function myLoansAction()
     {
-        $user = ['username' => 'fred'];
+        $user = new User;
+
 
         return $this->render('security/myLoans.html.twig', array('user' => $user));
     }

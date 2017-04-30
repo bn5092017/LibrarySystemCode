@@ -96,14 +96,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $this->router->generate('login');
     }
 
-    use TargetPathTrait;
+    //use TargetPathTrait;
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         //this function redirects a user to the page they were on when they had to login for access
-        $targetPath = $this->getTargetPath($request->getSession(), $providerKey);
+       // $targetPath = $this->getTargetPath($request->getSession(), $providerKey);
         //default is to send to the homepage
-        if(!$targetPath) {
-            $targetPath = $this->router->generate('homepage');
-        }
+        //if(!$targetPath) {
+            //$targetPath = $this->router->generate('');
+        //}
+        return $this->router->generate('my_loans');
     }
 }

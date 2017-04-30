@@ -31,10 +31,11 @@ class Loans
 
     /**
      * @var int
-     * @ORM\Column(name="user_id", type="integer")
-     * @ORM\ManyToOne(targetEntity="User")
+     *
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="loans")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $userId;
+    private $user;
 
 
 
@@ -130,17 +131,17 @@ class Loans
     /**
      * @return int
      */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
     }
 
     /**
-     * @param int $userId
+     * @param int $user
      */
-    public function setUserId($userId)
+    public function setUser($user)
     {
-        $this->userId = $userId;
+        $this->user = $user;
     }
 }
 

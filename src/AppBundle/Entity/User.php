@@ -89,6 +89,10 @@ class User implements UserInterface
      */
     private $roles = [];
 
+    /**
+     * @ORM\OneToMany(targetEntity="Loans", mappedBy="user")
+     */
+    private $loans;
 
     /**
      * Get id
@@ -301,6 +305,14 @@ class User implements UserInterface
     {
         //this will prevent the plainPassword being saved
         $this->plainPassword = null;
+    }
+
+    public function addLoan(Loans $loans){
+        if(!$this->loans->contains($loans)){
+            $loans->setUser($this);
+            $this->loans->add($loans);
+        }
+        return $this;
     }
 
 }
