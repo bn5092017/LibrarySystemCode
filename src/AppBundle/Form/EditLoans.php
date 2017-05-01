@@ -8,8 +8,12 @@
 
 namespace AppBundle\Form;
 
+
+
 use Symfony\Component\Form\AbstractType;
+
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 class EditLoans extends AbstractType
@@ -21,7 +25,6 @@ class EditLoans extends AbstractType
     {
         //no need to modify the dateOut property
         $builder->add('bookIsbn')
-            ->add('userId')
             ->add('dateDueBack', DateType::class);
     }
 

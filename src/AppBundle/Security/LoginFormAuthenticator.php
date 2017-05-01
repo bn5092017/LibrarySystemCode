@@ -13,10 +13,10 @@ use AppBundle\Form\LoginForm;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -96,15 +96,16 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $this->router->generate('login');
     }
 
-    //use TargetPathTrait;
+    use TargetPathTrait;
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         //this function redirects a user to the page they were on when they had to login for access
-       // $targetPath = $this->getTargetPath($request->getSession(), $providerKey);
+        $targetPath = $this->getTargetPath($request->getSession(), $providerKey);
         //default is to send to the homepage
-        //if(!$targetPath) {
-            //$targetPath = $this->router->generate('');
-        //}
-        return $this->router->generate('my_loans');
+        if(!$targetPath) {
+            $targetPath = $this->router->generate('my_loans');
+        }
+        return new RedirectResponse($targetPath);
+
     }
 }

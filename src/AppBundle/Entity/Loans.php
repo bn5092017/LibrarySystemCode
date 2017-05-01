@@ -30,9 +30,9 @@ class Loans
     private $bookIsbn;
 
     /**
-     * @var int
      *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="loans")
+     *
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="loans", cascade={"persist"})
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;

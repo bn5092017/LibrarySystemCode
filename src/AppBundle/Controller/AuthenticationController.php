@@ -35,7 +35,6 @@ class AuthenticationController extends Controller
             '_username' => $lastUsername,
         ]);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash('success', sprintf('Welcome %s', $this->getUser()->getUsername()));
 
             return $this->redirectToRoute('my_loans');
         }
@@ -43,28 +42,6 @@ class AuthenticationController extends Controller
                 'form' => $form->createView(),
                 'error' => $e,
             ]);
-    }
-
-    /**
-     * @Route("/staffLogin", name="staff_login")
-     */
-    public function staffLoginAction()
-    {
-        //use built-in security error handling utility
-        $authUtil = $this->get('security.authentication_utils');
-        $e = $authUtil->getLastAuthenticationError();//displays error message
-        $lastUsername = $authUtil->getLastUsername();//autofills username on failed login
-        $form = $this->createForm(LoginForm::class, [
-            '_username' => $lastUsername,
-        ]);
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            return $this->render('security/adminHome.html.twig');
-        }
-        return $this->render('security/staffLogin.html.twig', [
-            'form' => $form->createView(),
-            'error' => $e,
-        ]);
     }
 
     /**
@@ -84,8 +61,14 @@ class AuthenticationController extends Controller
     {
         $user = new User;
 
+        $loans = $user->getLoans();
 
-        return $this->render('security/myLoans.html.twig', array('user' => $user));
+        //if(!$loans){
+          //  $this->addFlash('success', sprintf('There are no loans for %s', $this->getUser()->getUsername()));
+            //$loans = ['isbn' => '1', 'dateDueBack' => 'NOW'];
+        //}
+
+        return $this->render('security/myLoans.html.twig', array('user' => $user, 'loans' => $loans));
     }
 
 

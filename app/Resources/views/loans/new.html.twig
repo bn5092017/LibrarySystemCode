@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
-
+{% block title %} new loan{% endblock %}
 {% block body %}
     <h1>Loan creation</h1>
 
     {{ form_start(form) }}
-    {{ form_row(form.bookIsbn) }}
-    {{ form_row(form.userId) }}
+    {{ form_widget(form) }}
+{#{{ form_row(form.bookIsbn) }}
+    {{ form_row(form.user) }}#}
         <input type="submit" value="Create" />
     {{ form_end(form) }}
 

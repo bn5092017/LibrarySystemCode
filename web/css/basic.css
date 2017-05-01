@@ -13,6 +13,14 @@ ul{
     list-style-type: none;
 }
 
+a{
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 .centre{
     text-align: center;
 }
@@ -22,10 +30,28 @@ h1{
     text-align: center;
 }
 
+/* authorisation warning styling */
 h1.authWarning{
     font-size: 3rem;
     text-align: center;
     color: #009;
+}
+
+p.authWarning{
+    font-size: 1.5rem;
+    text-align: center;
+    color: #000;
+}
+
+p.authWarning a{
+    font-size: 1.5rem;
+    text-align: center;
+    text-decoration: none;
+    color: #039;
+}
+
+p.authWarning a:hover{
+    text-decoration: underline;
 }
 
 /* nav styling */

@@ -115,7 +115,7 @@ class LoansController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('loans_edit', array('id' => $loan->getId()));
+            return $this->redirectToRoute('loans_index');
         }
 
         return $this->render('loans/edit.html.twig', array(

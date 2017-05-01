@@ -95,6 +95,22 @@ class User implements UserInterface
     private $loans;
 
     /**
+     * @return mixed
+     */
+    public function getLoans()
+    {
+        return $this->loans;
+    }
+
+    /**
+     * @param mixed $loans
+     */
+    public function setLoans($loans)
+    {
+        $this->loans = $loans;
+    }
+
+    /**
      * Get id
      *
      * @return int
@@ -313,6 +329,14 @@ class User implements UserInterface
             $this->loans->add($loans);
         }
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->username;
     }
 
 }

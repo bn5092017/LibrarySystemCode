@@ -2,5 +2,13 @@
 {% block title %}MyLoans{% endblock %}
 {% block body %}
     <h1>MyLoans for {{ app.user.username }}</h1>
+        <ul>
+        {% for loan in loans %}
+            <li>
+            Book isbn{% if loan.isbn %}{{ loan.isbn }}{% endif %}
+            Date due back{% if loan.dateDueBack %}{{ loan.dateDueBack|date('Y-m-d') }}{% endif %}
+            </li>
+        {% endfor %}
+        </ul>
 
 {% endblock %}
