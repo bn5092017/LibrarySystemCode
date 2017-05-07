@@ -1,34 +1,27 @@
-# To get started with security, check out the documentation:
-# http://symfony.com/doc/current/security.html
 security:
     encoders:
         # tells the system what method to use to encrypt items for the User entity
         AppBundle\Entity\User: bcrypt
 
-    # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        # set up how users are stored
+        # set up how users are defined
         users:
             entity: {class: AppBundle\Entity\User, property: username}
 
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
         main:
             anonymous: ~
+            # set up the authenticator service to handle login requests
             guard:
                 authenticators:
                     - app.security.login_form_authenticator
-
+            # logout service
             logout:
                 path: /logout
-            # activate different ways to authenticate
-
-            # http_basic: ~
-            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
 
 
 

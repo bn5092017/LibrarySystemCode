@@ -20,8 +20,7 @@ class SearchType extends AbstractType
         $builder->add('author')
             ->add('title')
             ->add('catagory')
-            //->add('keyword', ['mapped' => false])
-        ;
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

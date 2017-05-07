@@ -43,8 +43,8 @@ class BooksType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    /*public function getBlockPrefix()
+    public function getBlockPrefix()
     {
-        return 'appbundle_user';
-    }*/
+        return 'appbundle_books';
+    }
 }

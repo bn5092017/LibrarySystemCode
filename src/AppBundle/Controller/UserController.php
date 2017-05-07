@@ -6,6 +6,7 @@ use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -136,4 +137,42 @@ class UserController extends Controller
             ->getForm()
         ;
     }
+
+    /**
+     *
+     * @Route("/myLoans", name="my_loans")
+     *
+     */
+    public function myLoansAction()
+    {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        return $this->render('user/myLoans.html.twig', ['user' => $user]);
+    }
+
+    /**
+     * @Route("/myLoans", name="my_loans")
+     * @ParamConverter("user", class="AppBundle:User", options={"username" = "$username"})
+     * @Method("GET")
+     */
+    /*public function myLoansAction(User $username)
+    {
+        //$username = $user->getUsername();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $username = $em->getRepository('AppBundle:User')->findOneBy(['username' => $user]);
+
+        //$loans[] = $user->getLoans();
+        //if(!$loans){
+        //  $this->addFlash('success', sprintf('There are no loans for %s', $this->getUser()->getUsername()));
+        //$loans = ['isbn' => '1', 'dateDueBack' => 'NOW'];
+        //}
+
+        return $this->render('user/myLoans.html.twig', array('user' => $user));
+    }*/
+//@ParamConverter("child", class="AppBundle:Child", options={"name" = "name"})
+//public function showAction($productId)
+
+
+
 }

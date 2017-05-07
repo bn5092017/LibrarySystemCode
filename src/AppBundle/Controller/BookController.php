@@ -12,6 +12,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Books;
 use AppBundle\Form\SearchType;
 use AppBundle\Repository\BooksRepository;
+use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -40,50 +41,32 @@ class BookController extends Controller
     }
 
     /**
-     * @Route("/searchAuthor", name="search_books_author")
-     * @Method("GET")
+     * @Route("/search", name="search_books")
+     * @Method({"GET", "POST"})
      */
-    public function searchAuthorAction(Request $request)
+    public function searchAction(Books $books)
     {
+        $em = $this->getDoctrine()->getManager();
+        $list = $em->getRepository('AppBundle\Entity\Books')->findAllBooksMatchingSearch($books);
         $form = $this->createForm(SearchType::class);
 
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-            $list = $form->getData();
-            $em = $this->getDoctrine()->getManager();
-            $books = $em->getRepository('AppBundle:Books')->findAllBookMatchingSearch($list);
-
-            $this->addFlash('success', 'list of books');
-            return $this->render('books/searchResults.html.twig', ['books' => $books]);
-        }
-
         return $this->render('books/search.html.twig', [
+            'list' => $list,
             'searchForm' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/search", name="search_books")
-     * @Method({"GET", "POST"})
+     * @Route("/searchFiction", name="search_fiction")
+     * @Method("GET")
      */
-    public function searchAction(Request $request)
+    public function searchFiction()
     {
-        $books = new BooksRepository();
-        $form = $this->createForm(SearchType::class, $books);
+        $em = $this->getDoctrine()->getManager();
+        $books = $em->getRepository('AppBundle:Books')->findAllFiction();
 
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-            $search = $form->getData();
-            $em = $this->getDoctrine()->getManager();
-            $list = $em->getRepository('AppBundle:Books')->findAllBookMatchingSearch($search);
-            $this->addFlash('success', 'list of books');
-            return $this->render('books/searchResults.html.twig', [
-                'list' => $list,
-            ]);
-        }
-
-        return $this->render('books/search.html.twig', [
-           'searchForm' => $form->createView(),
+        return $this->render('books/searchResults.html.twig', [
+            'books' => $books,
         ]);
     }
 

@@ -16,12 +16,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Books
 {
     /**
-     * @var int
+     * @var integer
      * Isbn column is the ID for a book object as this is a unique identifier for a particular publication
      *
      * @ORM\Column(name="isbn", type="integer")
-     * @ORM\Id
-     *
+     * @ORM\Id()
      */
     private $isbn;
 
@@ -67,6 +66,17 @@ class Books
      */
     private $description;
 
+    /**
+     * Set id
+     *
+     * @param int $isbn
+     * @return Books
+     */
+    public function setIsbn($isbn)
+    {
+        $this->isbn = $isbn;
+        return $this;
+    }
 
     /**
      * Get id

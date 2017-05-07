@@ -2,10 +2,7 @@
 
 namespace AppBundle\Form;
 
-use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,10 +14,7 @@ class LoansType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         //dates are calculated in the method newAction and are not needed in the form
-        $builder->add('bookIsbn')
-            ->add($builder->create('user',FormType::class, ['data_class' => 'AppBundle\Entity\User', ]))
-            //->add($builder->create('user', FormType::class, ['by_reference'=> false]))
-        ;
+        $builder->add('bookIsbn')->add('user');
     }
 
     /**
@@ -28,9 +22,9 @@ class LoansType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Loans',
-        ));
+        ]);
     }
 
     /**

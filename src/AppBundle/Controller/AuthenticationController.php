@@ -12,7 +12,6 @@ use AppBundle\Entity\User;
 use AppBundle\Form\LoginForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;//class containing routing methods
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;//base controller class
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class AuthenticationController
@@ -36,7 +35,7 @@ class AuthenticationController extends Controller
         ]);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            return $this->redirectToRoute('my_loans');
+            return $this->redirectToRoute('homepage');
         }
         return $this->render('security/login.html.twig', [
                 'form' => $form->createView(),
@@ -53,24 +52,6 @@ class AuthenticationController extends Controller
         // by built-in Symfony function but without a route, this would just throw a 404 error
         throw new \Exception('Problem with logout function');
     }
-
-    /**
-     * @Route("/myLoans", name="my_loans")
-     */
-    public function myLoansAction()
-    {
-        $user = new User;
-
-        $loans = $user->getLoans();
-
-        //if(!$loans){
-          //  $this->addFlash('success', sprintf('There are no loans for %s', $this->getUser()->getUsername()));
-            //$loans = ['isbn' => '1', 'dateDueBack' => 'NOW'];
-        //}
-
-        return $this->render('security/myLoans.html.twig', array('user' => $user, 'loans' => $loans));
-    }
-
 
     /**
      * @Route("/adminHome", name="adminHome")

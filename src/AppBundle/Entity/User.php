@@ -92,10 +92,12 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity="Loans", mappedBy="user")
      */
-    private $loans;
+    private $loans = [];
 
     /**
-     * @return mixed
+     * Get loans
+     *
+     * @return array
      */
     public function getLoans()
     {
@@ -103,11 +105,15 @@ class User implements UserInterface
     }
 
     /**
-     * @param mixed $loans
+     * @param array $loans
+     *
+     * @return Loans
      */
-    public function setLoans($loans)
+    public function setLoans(Loans $loans)
     {
         $this->loans = $loans;
+
+        return $loans;
     }
 
     /**

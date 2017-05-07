@@ -103,7 +103,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $targetPath = $this->getTargetPath($request->getSession(), $providerKey);
         //default is to send to the homepage
         if(!$targetPath) {
-            $targetPath = $this->router->generate('my_loans');
+            $targetPath = $this->router->generate('homepage');
         }
         return new RedirectResponse($targetPath);
 
