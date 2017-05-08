@@ -17,15 +17,13 @@ use Doctrine\ORM\EntityRepository;
 class BooksRepository extends EntityRepository
 {
     /**
-     * @param Books $books
+     * @param $books
      *
      * @return mixed
      */
-    public function findAllBooksMatchingSearch(Books $books)
+    public function findAllBooksMatchingSearch($books)
     {
         return $this->createQueryBuilder('books')
-            ->select(array('books'))
-            ->from('Books', 'books')
             ->Where('books.author = :author')
             ->setParameter('author', $books[2])
             ->orWhere('books.title = :title')

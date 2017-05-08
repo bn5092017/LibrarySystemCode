@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\AppBundle;
 use AppBundle\Entity\Books;
 use AppBundle\Form\SearchType;
 use AppBundle\Repository\BooksRepository;
@@ -44,14 +45,21 @@ class BookController extends Controller
      * @Route("/search", name="search_books")
      * @Method({"GET", "POST"})
      */
-    public function searchAction(Books $books)
+    public function searchAction(Request $request)
     {
+        $books = $request->getContent();
+
         $em = $this->getDoctrine()->getManager();
         $list = $em->getRepository('AppBundle\Entity\Books')->findAllBooksMatchingSearch($books);
-        $form = $this->createForm(SearchType::class);
+        $form = $this->createForm('AppBundle\Form\SearchType');
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->render('books/searchResults.html.twig', [
+                'list' => $list]);
+        }
 
         return $this->render('books/search.html.twig', [
-            'list' => $list,
+            'books' => $books,
             'searchForm' => $form->createView(),
         ]);
     }
