@@ -8,11 +8,12 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\User;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;//base controller class
 
+/*
+ * Class that sets up three basic template routes
+ */
 class MainController extends Controller
 {
     /**
@@ -28,7 +29,6 @@ class MainController extends Controller
      */
     public function aboutAction()
     {
-
         return $this->render('main/about.html.twig');
     }
 

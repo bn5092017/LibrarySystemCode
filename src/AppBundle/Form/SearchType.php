@@ -10,6 +10,7 @@ namespace AppBundle\Form;
 
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class SearchType extends AbstractType
@@ -18,7 +19,16 @@ class SearchType extends AbstractType
     {
         $builder->add('author')
             ->add('title')
-            ->add('catagory')
+            ->add('catagory', ChoiceType::class, [//renders options instead of free-text textbox
+                'multiple' => true,//allows multiple selection
+                'expanded' => true,//renders checkboxes if multiple is true or else radio buttons
+                'choices' => [
+                    'biography' => 'biography',
+                    'children' => 'children',
+                    'fiction' => 'fiction',
+                    'sci-fi and fantasy' => 'sci-fi and fantasy'
+                    ]
+            ])
             ;
     }
 

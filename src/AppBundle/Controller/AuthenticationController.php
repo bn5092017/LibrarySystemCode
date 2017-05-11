@@ -8,7 +8,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\User;
 use AppBundle\Form\LoginForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;//class containing routing methods
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;//base controller class
@@ -26,7 +25,7 @@ class AuthenticationController extends Controller
      */
     public function loginAction()
     {
-        //use built-in security error handling utility
+        //use built-in security error handling utility, see Symfony docs http://symfony.com/doc/current/security/form_login_setup.html
         $authUtil = $this->get('security.authentication_utils');
         $e = $authUtil->getLastAuthenticationError();//displays error message from
         $lastUsername = $authUtil->getLastUsername();//autofills username on failed login
@@ -58,7 +57,7 @@ class AuthenticationController extends Controller
      */
     public function adminHomeAction()
     {
-
+        //Staff homepage with admin actions
         return $this->render('security/adminHome.html.twig');
     }
 }

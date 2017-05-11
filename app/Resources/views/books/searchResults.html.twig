@@ -2,9 +2,10 @@
 {% block title %}search results{% endblock %}
 {% block body %}
     <h1>Search results</h1>
+    {{ dump(list) }}
     <ul>
-        {% for book in books %}
-            <li>{{ book.author }}, <strong>{{ book.title }}</strong>, <em>{{ book.catagory }}</em></li>
+        {% for item in list %}
+            <li>{{ item.author }}, <strong>{{ item.title }}</strong>, <em>{{ item.catagory }}</em></li>
         {% endfor %}
     </ul>
 

@@ -1,7 +1,8 @@
 <?php
 
 namespace AppBundle\Repository;
-use AppBundle\Entity\Books;
+
+use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -17,29 +18,32 @@ use Doctrine\ORM\EntityRepository;
 class BooksRepository extends EntityRepository
 {
     /**
-     * @param $books
+     * @param $request
      *
      * @return mixed
      */
-    public function findAllBooksMatchingSearch($books)
+    public function findAllBooksMatchingSearch(Request $request)
     {
-        return $this->createQueryBuilder('books')
-            ->Where('books.author = :author')
-            ->setParameter('author', $books[2])
+        return $this->createQueryBuilder('books')//alias for the table
+            ->Where('books.author = :author')//avoid SQL injection by using placeholders
+            ->setParameter('author', '%'.$request->get('author').'%' )//fill in the value
             ->orWhere('books.title = :title')
-            ->setParameter('title', $books[1])
+            ->setParameter('title', '%'.$request->get('title').'%')
             ->orWhere('books.catagory = :catagory')
-            ->setParameter('catagory', $books[5])
+            ->setParameter('catagory', '%'.$request->get('catagory').'%')
             ->getQuery()
             ->execute();
     }
 
+    /*
+     * test the search query using a predefined value
+     */
     public function findAllFiction()
     {
-        return $this->createQueryBuilder('books')
-            ->andWhere('books.catagory = :catagory')
-            ->setParameter('catagory', 'fiction')
-            ->getQuery()
-            ->execute();
+        return $this->createQueryBuilder('books')//alias for the table
+            ->andWhere('books.catagory = :catagory')//avoid SQL injection by using placeholders
+            ->setParameter('catagory', 'fiction')//fill in a predefined value
+            ->getQuery()//build the query
+            ->execute();//execute the SQL query
     }
 }

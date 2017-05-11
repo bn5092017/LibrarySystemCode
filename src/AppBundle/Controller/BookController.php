@@ -8,19 +8,12 @@
 
 namespace AppBundle\Controller;
 
-
-use AppBundle\AppBundle;
 use AppBundle\Entity\Books;
-use AppBundle\Form\SearchType;
-use AppBundle\Repository\BooksRepository;
-use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;//base controller class
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class BookController
@@ -44,22 +37,26 @@ class BookController extends Controller
     /**
      * @Route("/search", name="search_books")
      * @Method({"GET", "POST"})
+     *
+     * method to search the books table
      */
     public function searchAction(Request $request)
     {
-        $books = $request->getContent();
-
+        //set up the Doctrine entity manager
         $em = $this->getDoctrine()->getManager();
-        $list = $em->getRepository('AppBundle\Entity\Books')->findAllBooksMatchingSearch($books);
-        $form = $this->createForm('AppBundle\Form\SearchType');
-        $form->handleRequest($request);
+
+        //use the BooksRepository class method findAllBooksMatchingSearch
+        $list = $em->getRepository('AppBundle\Entity\Books')->findAllBooksMatchingSearch($request);
+        $form = $this->createForm('AppBundle\Form\SearchType');//create the search form
+        $form->handleRequest($request);//take in the form information
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->render('books/searchResults.html.twig', [
-                'list' => $list]);
+            //render the search results template
+            return $this->render('books/searchResults.html.twig',
+                ['list' => $list]);
         }
 
+        //render the search template
         return $this->render('books/search.html.twig', [
-            'books' => $books,
             'searchForm' => $form->createView(),
         ]);
     }
@@ -67,6 +64,8 @@ class BookController extends Controller
     /**
      * @Route("/searchFiction", name="search_fiction")
      * @Method("GET")
+     *
+     * test for search function with single catagory
      */
     public function searchFiction()
     {

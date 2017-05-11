@@ -72,7 +72,7 @@ class LoansController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $loan->setDateDueBack(new \DateTime('NOW + 21 days'));
+            $loan->setDateDueBack(new \DateTime('NOW + 21 days'));//sets to 3 weeks from today
             $em = $this->getDoctrine()->getManager();
             $em->persist($loan);
             $em->flush($loan);

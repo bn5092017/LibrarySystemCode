@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("user")
  * @Security("is_granted('ROLE_STAFF')")
+ *
+ * Only staff users have access to any of the methods of this class
  */
 class UserController extends Controller
 {
@@ -138,41 +140,26 @@ class UserController extends Controller
         ;
     }
 
+
     /**
-     *
      * @Route("/myLoans", name="my_loans")
      *
+     * @Method({"GET", "POST"})
      */
     public function myLoansAction()
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        return $this->render('user/myLoans.html.twig', ['user' => $user]);
-    }
-
-    /**
-     * @Route("/myLoans", name="my_loans")
-     * @ParamConverter("user", class="AppBundle:User", options={"username" = "$username"})
-     * @Method("GET")
-     */
-    /*public function myLoansAction(User $username)
-    {
-        //$username = $user->getUsername();
+        $user = new User();
+        $username = $user->getUsername();
 
         $em = $this->getDoctrine()->getManager();
 
-        $username = $em->getRepository('AppBundle:User')->findOneBy(['username' => $user]);
+        $em->getRepository('AppBundle:User')->findOneBy(['username' => $username]);
 
-        //$loans[] = $user->getLoans();
-        //if(!$loans){
-        //  $this->addFlash('success', sprintf('There are no loans for %s', $this->getUser()->getUsername()));
-        //$loans = ['isbn' => '1', 'dateDueBack' => 'NOW'];
-        //}
+        $loans[] = $user->getLoans();
+        if(!$loans){
+          $this->addFlash('success', sprintf('There are no loans for %s', $this->getUser()->getUsername()));
+        }
 
-        return $this->render('user/myLoans.html.twig', array('user' => $user));
-    }*/
-//@ParamConverter("child", class="AppBundle:Child", options={"name" = "name"})
-//public function showAction($productId)
-
-
-
+        return $this->render('user/myLoans.html.twig', array('user' => $username));
+    }
 }
