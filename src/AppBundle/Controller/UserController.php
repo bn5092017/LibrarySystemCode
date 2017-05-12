@@ -144,22 +144,10 @@ class UserController extends Controller
     /**
      * @Route("/myLoans", name="my_loans")
      *
-     * @Method({"GET", "POST"})
+     *
      */
     public function myLoansAction()
     {
-        $user = new User();
-        $username = $user->getUsername();
-
-        $em = $this->getDoctrine()->getManager();
-
-        $em->getRepository('AppBundle:User')->findOneBy(['username' => $username]);
-
-        $loans[] = $user->getLoans();
-        if(!$loans){
-          $this->addFlash('success', sprintf('There are no loans for %s', $this->getUser()->getUsername()));
-        }
-
-        return $this->render('user/myLoans.html.twig', array('user' => $username));
+        return $this->render('user/myLoans.html.twig');
     }
 }
